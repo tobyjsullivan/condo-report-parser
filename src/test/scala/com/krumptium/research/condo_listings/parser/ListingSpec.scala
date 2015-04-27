@@ -106,8 +106,8 @@ class ListingSpec extends FlatSpec with Matchers {
     listing.parkingAccess shouldBe Some("Front")
   }
 
-  "parkingFacilities" should "return Some(List(Garage, Underground)) for listing1" in {
-    listing.parkingFacilities shouldBe Some(List("Garage", "Underground"))
+  "parkingFacilities" should "return Some(List(Garage; Underground)) for listing1" in {
+    listing.parkingFacilities shouldBe Some(List("Garage; Underground"))
   }
 
   "construction" should "return Some(List(Concrete)) for listing1" in {

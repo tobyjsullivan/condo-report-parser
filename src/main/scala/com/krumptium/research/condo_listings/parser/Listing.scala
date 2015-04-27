@@ -39,32 +39,7 @@ case class Listing(htmlFile: File) {
     Try(dateParseFormat.parseLocalDate(dateString)).toOption
 
   private def splitList(listOfPhrases: String): List[String] = {
-    val regexSeparators = "[;/,]"
-
-    // Temporarily replace any confusing words
-    val confusingWords = Seq("w/")
-
-    val foundWordIdxs = for (
-      idx <- 0 until confusingWords.size;
-      word = confusingWords(idx) if listOfPhrases.contains(word)
-    ) yield idx
-
-    val stringWithConfusingWordsReplaced = foundWordIdxs.foldLeft(listOfPhrases) { (acc, idx) =>
-      val confusingWord = confusingWords(idx)
-      val temporaryWord = s"{{%$idx%}}"
-      acc.replace(confusingWord, temporaryWord)
-    }
-
-    // Do the actual splitting
-    val phrases = stringWithConfusingWordsReplaced.split(regexSeparators).toList.map(_.trim)
-
-    // Restore confusing words
-    phrases.map { phrase =>
-      foundWordIdxs.foldLeft(phrase) { (acc, idx) =>
-        val confusingWord = confusingWords(idx)
-        acc.replace(s"{{%$idx%}}", confusingWord)
-      }
-    }
+    listOfPhrases.split(',').toList.map(_.trim)
   }
 
   private val spanIdxMap: Map[Symbol, Int] = Map(
