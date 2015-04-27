@@ -237,17 +237,7 @@ case class Listing(htmlFile: File) {
   lazy val approxYearBuilt: Option[Year] =
     getSpanTextByTitle("Approx Yr Blt").flatMap(parseIntOption)
 
-  lazy val ageAtListDate: Option[Int] = {
-    // Our normal approach doesn't work for this one because elements are misaligned
-    // The content span actually precedes the title span
-    val titleSpanSelector = s"span:contains(Age at List Date)"
-    val oTitleSpan = document.select(titleSpanSelector).headOption
-
-    // Get the preceding span
-    val oContentSpan = oTitleSpan.flatMap(title => Try(title.previousElementSibling()).toOption)
-
-    oContentSpan.map(_.text()).flatMap(parseIntOption)
-  }
+  lazy val ageAtListDate: Option[Int] = getSpanTextByTitle("Age at List Date").flatMap(parseIntOption)
 
   lazy val propertyType: Option[String] = getSpanTextByTitle("Type")
 
@@ -385,11 +375,19 @@ case class Listing(htmlFile: File) {
 
   lazy val owner: Option[String] = ???
 
-  lazy val commission: Option[String] = ???
+  lazy val commission: Option[String] = getSpanTextByTitle("Commission")
 
-  lazy val realtorRemarks: Option[String] = ???
+  lazy val realtorRemarks: Option[String] = {
+    val spanRealtorRemarksTitle = document.select("span:contains(Realtor Remarks:)").find(_.text() == "Realtor Remarks:")
 
-  lazy val description: Option[String] = ???
+    spanRealtorRemarksTitle.flatMap(span => Try(span.previousElementSibling().text()).toOption)
+  }
+
+  lazy val description: Option[String] = {
+    val spanRealtorRemarksTitle = document.select("span:contains(Realtor Remarks:)").find(_.text() == "Realtor Remarks:")
+
+    spanRealtorRemarksTitle.flatMap(span => Try(span.nextElementSibling().text()).toOption)
+  }
 
   lazy val reportGenerated: Option[LocalDateTime] = ???
 

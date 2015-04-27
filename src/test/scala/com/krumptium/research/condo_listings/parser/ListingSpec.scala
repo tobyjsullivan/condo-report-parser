@@ -137,4 +137,22 @@ class ListingSpec extends FlatSpec with Matchers {
   "bylawRestrictions" should "return two expected strings for listing1" in {
     listing.bylawRestrictions shouldBe Some(List("Pets Allowed w/Rest.", "Rentals Allowed w/Restrictions"))
   }
+
+  "description" should "return Some(string) where the string starts with \"Callisto, Coal\" and ends with \"12:30pm.\" for listing1" in {
+    val description = listing.description
+    description.isDefined shouldBe true
+    description.exists(_.startsWith("Callisto, Coal")) shouldBe true
+    description.exists(_.endsWith("12:30pm.")) shouldBe true
+  }
+
+  "realtorRemarks" should "return Some(string) where the string starts with \"THE MOST\" and ends with \"ASSESSED VALUE.\" for listing1" in {
+    val remarks = listing.realtorRemarks
+    remarks.isDefined shouldBe true
+    remarks.exists(_.startsWith("THE MOST")) shouldBe true
+    remarks.exists(_.endsWith("ASSESSED VALUE.")) shouldBe true
+  }
+
+  "commission" should "return Some(3.22%-1ST $100K/1.15% BAL) for listing1" in {
+    listing.commission shouldBe Some("3.22%-1ST $100K/1.15% BAL")
+  }
 }
