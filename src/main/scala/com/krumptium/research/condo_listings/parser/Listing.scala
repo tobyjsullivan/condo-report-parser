@@ -128,7 +128,7 @@ case class Listing(htmlFile: File) {
     // Get a list of spans containing category titles or values (denoted by their height of 13px).
     val propertySpans: List[SpanElement] =
       allTheSpans.map(SpanElement.apply)
-        .filter(_.height.exists(h => h >= 13 && h <= 22))
+        .filter(_.height.exists(h => h >= 13 && h <= 23))
 
     def findSpanToRightOf(span: SpanElement): Option[SpanElement] = {
       val allSpansToRight = propertySpans.filter(span.isToLeftOf)
@@ -333,17 +333,17 @@ case class Listing(htmlFile: File) {
 
   lazy val waterSupply: Option[String] = ???
 
-  lazy val heatAndFuel: Option[List[String]] = ???
+  lazy val heatAndFuel: Option[List[String]] = getSpanTextByTitle("Heat/Fuel").map(splitList)
 
-  lazy val titleToLand: Option[String] = ???
+  lazy val titleToLand: Option[String] = getSpanTextByTitle("Title to Land")
 
   lazy val numFireplaces: Option[Int] = ???
 
   lazy val fireplaceFuel: Option[List[String]] = ???
 
-  lazy val sellersInterest: Option[String] = ???
+  lazy val sellersInterest: Option[String] = getSpanTextByTitle("Seller's Interest")
 
-  lazy val outdoorArea: Option[List[String]] = ???
+  lazy val outdoorArea: Option[List[String]] = getSpanTextByTitle("Outdoor Area").map(splitList)
 
   lazy val propertyDisclosure: Option[Boolean] = ???
 
@@ -351,7 +351,7 @@ case class Listing(htmlFile: File) {
 
   lazy val managementCompany: Option[Contact] = ???
 
-  lazy val bylawRestrictions: Option[List[String]] = ???
+  lazy val bylawRestrictions: Option[List[String]] = getSpanTextByTitle("Bylaw Restrictions").map(splitList)
 
   lazy val maintenanceFee: Option[DollarAmount] = ???
 

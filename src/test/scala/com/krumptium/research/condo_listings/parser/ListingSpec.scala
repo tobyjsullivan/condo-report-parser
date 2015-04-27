@@ -125,4 +125,16 @@ class ListingSpec extends FlatSpec with Matchers {
   "titleToLand" should "return Some(Freehold Strata) for listing1" in {
     listing.titleToLand shouldBe Some("Freehold Strata")
   }
+
+  "outdoorArea" should "return Some(List(None)) for listing1" in {
+    listing.outdoorArea shouldBe Some(List("None"))
+  }
+
+  "sellersInterest" should "return Some(Registered Owner) for listing1" in {
+    listing.sellersInterest shouldBe Some("Registered Owner")
+  }
+
+  "bylawRestrictions" should "return two expected strings for listing1" in {
+    listing.bylawRestrictions shouldBe Some(List("Pets Allowed w/Rest.", "Rentals Allowed w/Restrictions"))
+  }
 }
